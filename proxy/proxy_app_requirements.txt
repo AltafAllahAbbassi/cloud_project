@@ -1,0 +1,6 @@
+ping3
+paramiko
+sshtunnel
+mysql-connector-python 
+flask 
+requests 
