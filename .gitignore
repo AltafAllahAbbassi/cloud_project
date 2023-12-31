@@ -1,0 +1,14 @@
+gatekeeper/contants.py
+gatekeeper/cluster_instances_details.json
+gatekeeper/gatekeeper_instance_details.json
+
+
+proxy/cluster_instance_details.json
+proxy/constants.py
+proxy/proxy_details.json
+
+# Ignore Python bytecode files
+*.pyc
+
+# Ignore __pycache__ directory
+__pycache__/
