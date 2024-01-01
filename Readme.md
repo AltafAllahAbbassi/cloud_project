@@ -45,7 +45,7 @@ After running these commands you will find results under benchmarking folder.
 cd proxy 
 python infrastructure.py
 ```
-2- send requests: 
+3- send requests: 
 ```bash
 python send_requests.py --query SQL_QUERY --strategy STRATEGY
 ```
@@ -60,7 +60,7 @@ PS: supported startegies: random, customized, direct_hit
 cd gatekeeper
 python infrastructure.py
 ```
-2- send requests: 
+3- send requests: 
 ```bash
 python send_requests.py --query SQL_QUERY 
 ```
