@@ -9,7 +9,9 @@ This project is organzied as follow:
 To reproduce the results please follow the follwoing instructions: 
 
 **Common:**
-1- Put your aws credentails into ~/.aws/credentials
+
+1- Put your aws credentails into ~/.aws/credentials.
+
 2- Pull the repository 
 ```bash
 git clone https://github.com/AltafAllahAbbassi/cloud_project
