@@ -21,7 +21,9 @@ git clone https://github.com/AltafAllahAbbassi/cloud_project
 pip install requirements.txt
 ```
 **Benchamrking:**
+
 1- rename contants_template.py to constants,py and configure your constants.
+
 2- prepare the infrastructure:
 ```bash
 cd benchmarking 
@@ -33,8 +35,11 @@ python sql_standalone.py
 python benchmark.py
 ```
 After running these commands you will find results under benchmarking folder.
+
 **Proxy:**
+
 1- rename contants_template.py to constants,py and configure your constants.
+
 2- prepare the infrastructure:
 ```bash
 cd proxy 
@@ -45,8 +50,11 @@ python infrastructure.py
 python send_requests.py --query SQL_QUERY --strategy STRATEGY
 ```
 PS: supported startegies: random, customized, direct_hit
+
 **Gatekeeper:**
+
 1- rename contants_template.py to constants,py and configure your constants.
+
 2- prepare the infrastructure:
 ```bash
 cd gatekeeper
