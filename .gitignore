@@ -7,6 +7,16 @@ proxy/cluster_instance_details.json
 proxy/constants.py
 proxy/proxy_details.json
 
+benchmarking/constants.py
+benchmarking/cluster_instance_details.json
+benchmarking/standalone_details.json
+benchmarking/read_only_cluster.txt
+benchmarking/read_only_standalone.txt
+benchmarking/read_write_cluster.txt
+benchmarking/read_write_standalone.txt
+benchmarking/write_only_cluster.txt
+benchmarking/write_only_standalone.txt
+
 # Ignore Python bytecode files
 *.pyc
 
