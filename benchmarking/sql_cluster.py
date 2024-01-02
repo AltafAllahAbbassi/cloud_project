@@ -117,7 +117,13 @@ for data in instance_data:
 
 
 
-# the common steps to be excutes on both manger and worker nodes 
+# the common steps to be excutes on both manger and worker nodes: 
+# Create Directory for MySQL Cluster
+# Download MySQL Cluster
+# Extract MySQL Cluster Package
+# Create Symbolic Link to sql cluster
+# Configure Environment Variables for MySQL Cluster functionality
+# Update Package Information Again and Install Dependency: libncurses5
 common_steps = [
     'sudo apt-get update',
     'sudo mkdir -p /opt/mysqlcluster/home',
@@ -144,9 +150,15 @@ for i in range(len(common_steps)):
 
 
 # defining the steps specifc to manager node
+# Create Deployment Directory
+# Create Configuration Subdirectorie (conf, mysqld_data ndb_data)
+# create and configure MySQL Configuration File: my.cnf
+# Configure NDB Management Daemon (ndb_mgmd): by specifying the host and worker node ids with their respective host
+# Start NDB Management Daemon
+# Start MySQL Server
 manager_steps = [
 
-    'sudo mkdir -p /opt/mysqlcluster/deploy',
+    'sudo mkdir -p /opt/mysqlcluster/deploy ',
     'cd /opt/mysqlcluster/deploy',
     'sudo mkdir conf',
     'sudo mkdir mysqld_data',
@@ -189,6 +201,7 @@ for i in range(len(manager_steps)):
 
 
 # defining steps specific to data node (worker)
+# create a directory for deployment and bind the data node to the managament node
 worker_steps = [
     'sudo mkdir -p /opt/mysqlcluster/deploy/ndb_data', 
     'cd /opt/mysqlcluster/home/', 
@@ -210,6 +223,11 @@ for i in range(len(worker_steps)):
 
 
 # setup sakila commands and installing sysbench  on manager node of the sql cluster
+# downloading the sakila database (as tar)
+# extarct the database
+# mount the database to sql server
+# install sysbench: the benchmarking tool
+# parepre a bemchmarking dataset using sysbench prepare
 sakila_commands = [
     'wget https://downloads.mysql.com/docs/sakila-db.tar.gz', 
     'tar -xzvf sakila-db.tar.gz',

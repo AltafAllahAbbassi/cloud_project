@@ -34,24 +34,24 @@ cluster_commands = [
 
 ]
 
-## seting ssh and running benchmarking commands
+## seting ssh  on stand alone server 
 ssh_standalone = paramiko.SSHClient()
 ssh_standalone.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ssh_standalone.connect(standalone_dns, username='ubuntu', key_filename=private_key_path)
 
-
+## seting ssh  on cluster server 
 ssh_manager = paramiko.SSHClient()
 ssh_manager.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 ssh_manager.connect(cluster_manager_node_dns, username='ubuntu', key_filename=private_key_path)
 
-
+# run benchmarking commands on stadlone, result files will be generated 
 for command in standalone_commands:
     print("Running on standalone", command)
     _,stdout, stderr = ssh_standalone.exec_command(command)
     print(stdout.read().decode('utf-8'))
     print(stderr.read().decode('utf-8'))
 
-    
+# run benchmarking commands on cluster, result files will be generated   
 for command in cluster_commands: 
     print("Running on standalone", command)
     _,stdout, stderr = ssh_manager.exec_command(command)  
@@ -59,16 +59,24 @@ for command in cluster_commands:
     print(stderr.read().decode('utf-8'))
 
 
-# setting sftp to copy benchmark result files locally
+# setting sftp on standaloen server to copy benchmark result files locally
 sftp_standalone = ssh_standalone.open_sftp()
+# copy standalone readonly benchmark results
 sftp_standalone.get("read_only_standalone.txt", "read_only_standalone.txt")
+# copy standalone write only benchmark results
 sftp_standalone.get("write_only_standalone.txt", "write_only_standalone.txt")
+# copy standalone read and wirtw benchmark results
 sftp_standalone.get("read_only_standalone.txt", "read_write_standalone.txt")
+# close teh sftp on standaloen server
 sftp_standalone.close()
 
-
+# setting sftp on cluster server to copy benchmark result files locally
 sftp_cluster = ssh_standalone.open_sftp()
+# copy cluster read only benchmark result file
 sftp_cluster.get("read_only_cluster.txt", "read_only_cluster.txt")
+# copy cluster write only benchmark result file
 sftp_cluster.get("write_only_cluster.txt", "write_only_cluster.txt")
+# copy cluster read write benchmark result file
 sftp_cluster.get("read_write_cluster.txt", "read_write_cluster.txt")
+# close teh sftp on cluster 
 sftp_cluster.close()

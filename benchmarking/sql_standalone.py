@@ -105,6 +105,12 @@ for i in range(len(commands)):
 
 
 # installing sakila database, insralling sysbench and preparing a dataset for benchamrking 
+# setup sakila commands and installing sysbench  on manager node of the sql cluster
+# downloading the sakila database (as tar)
+# extarct the database
+# mount the database to sql server
+# install sysbench: the benchmarking tool
+# parepre a bemchmarking dataset using sysbench prepare
 sakila_commands = [
     'wget https://downloads.mysql.com/docs/sakila-db.tar.gz', 
     'tar -xzvf sakila-db.tar.gz',
