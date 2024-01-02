@@ -1,7 +1,7 @@
 security_group_name = '' # securot group anme
 key_pair_name = '' # key pair name
 ImageId =  '' # image id 
-subnet_id = '' # 
+subnet_id = '' # the subnet id
 arn = '' # aws arn
 
 private_key_path =  '' # private key pair path locally 

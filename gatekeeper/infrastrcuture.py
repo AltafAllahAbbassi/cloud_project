@@ -108,6 +108,7 @@ gatekeeper_instance = ec2_resource.create_instances(
     ],
 )
 
+# retriecing the launched gatekeeper instance details that will saved in json files to be used by other componeneys
 gatekeeper_instance = gatekeeper_instance[0]
 gatekeeper_instance.wait_until_running()
 gatekeeper_instance.load()
@@ -147,6 +148,7 @@ trusted_instance = ec2_resource.create_instances(
     ],
 )
 
+# retrieve the trusted host instance details to be sabed in json file to be used to send the requests
 trusted_instance = trusted_instance[0]
 trusted_instance.wait_until_running()
 trusted_instance.load()
@@ -165,12 +167,16 @@ with open('gatekeeper_instance_details.json', 'w') as file:
     json.dump([trusted_instance_info, gatekeeper_instance_instance_info], file, indent=4)
 
 
-# copying gatekeeper and trusted host source code as well as cluster instance details and gatekeeper as well as trusted host details
-
+# copy the cluster detail to trusted machine
 upload_file_to_ec2(trusted_instance, cluster_details, os.path.join(trusted_host_path, os.path,basename(cluster_details)), private_key_path)
+
+# copt the trusted flak application to the trusted machine
 upload_file_to_ec2(trusted_instance, trusted_host_source_code, os.path.join(trusted_host_path, os.path,basename(trusted_host_source_code)), private_key_path)
 
+# copy the gatekeeper machine deails to the gatekeepr machine
 upload_file_to_ec2(gatekeeper_instance, gatekeper_trusted_details, os.path.join(gatekeeper_host_path, os.path.basename(gatekeper_trusted_details)), private_key_path)
+
+# copy the gatekeeper flask application source code to gatekeeper instance
 upload_file_to_ec2(gatekeeper_instance, gatekeeper_source_code, os.path.join(gatekeeper_host_path, os.path.basename(gatekeeper_source_code)), private_key_path)
 
 
@@ -178,14 +184,16 @@ upload_file_to_ec2(gatekeeper_instance, gatekeeper_source_code, os.path.join(gat
 gatekeeper_commands = [
     'sudo apt-get update', 
     'sudo apt install python3.8-venv -y', 
-    'python3 -m venv venv', 
-    'source venv/bin/activate',
-    'pip install Flask', 
-    'pip install sqlvalidator', 
-    'pip install requests', 
-    'python gatekeeper.py'
+    'python3 -m venv venv', # create virtual env
+    'source venv/bin/activate', # activate venv
+    'pip install Flask', # install flask 
+    'pip install sqlvalidator',  # install sqlvalidator 
+    'pip install requests', # install requesrs
+    'python gatekeeper.py' # run gatekeeper flask application
 
 ]
+
+# execute configuration commands on gatekeeper machine
 for i in range(len(gatekeeper_commands)):
     command = gatekeeper_commands[i]
     command_id = send_command([gatekeeper_instance], command, ssm_client)
@@ -199,14 +207,15 @@ for i in range(len(gatekeeper_commands)):
 trsuted_host_commands = [
     'sudo apt-get update', 
     'sudo apt install python3.8-venv -y', 
-    'python3 -m venv venv', 
-    'source venv/bin/activate',
-    'pip install flask', 
-    'pip install mysql-connector-python', 
-    'pip install requests', 
-    'python trusted_host.py'
+    'python3 -m venv venv',  # create virtual env
+    'source venv/bin/activate', # activate venv
+    'pip install flask', # install flask 
+    'pip install mysql-connector-python',  # install mysql-connector-python 
+    'pip install requests', # install requesrs
+    'python trusted_host.py'  # run trusted host flask application
 ]
 
+# execute configuration commands on trsuted_host_ machine
 for i in range(len(trsuted_host_commands)):
     command = trsuted_host_commands[i]
     command_id = send_command([trusted_instance], command, ssm_client)

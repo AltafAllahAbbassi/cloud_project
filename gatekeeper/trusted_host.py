@@ -21,7 +21,9 @@ for data in cluster_data:
 @app.route('/', methods=['POST'])
 def direct_hit_endpoint():
     """
-    initilalize a connection with the manager of mysql cluster, then execute mysql query and return the response
+    initilalize a connection with the manager of mysql cluster
+    Then execute mysql query
+    Return the response
     """
     master_connection = mysql.connector.connect(**master_config)
     master_cursor = master_connection.cursor()
