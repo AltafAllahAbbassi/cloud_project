@@ -76,7 +76,7 @@ instance = ec2_resource.create_instances(
     ],
 )
 
-# Write the instance data to a JSON file
+# retriece proxy instance data to a JSON file
 instance = instance[0]
 instance.wait_until_running()
 instance.load()
@@ -95,9 +95,13 @@ with open('proxy_details.json', 'w') as file:
     json.dump(instance_data, file, indent=4)
 
 
-# upload provate key file, cluster_instance_details.json and proxy.py to proxy ec2 machine
+# upload provate key file to proxy ec2 machine
 upload_file_to_ec2(instance, cluster_details, os.path.join(proxy_host_path, os.path.basename(cluster_details)), private_key_path)
+
+# upload cluster_instance_details.json to proxy ec2 machine
 upload_file_to_ec2(instance, private_key_path, os.path.join(proxy_host_path, os.path.basename(private_key_path)), private_key_path)
+
+# upload proxy.py source code to proxy ec2 machine
 upload_file_to_ec2(instance, proxy_source_code, os.path.join(proxy_host_path, os.path.basename(proxy_source_code)), private_key_path)
 
 
@@ -105,17 +109,17 @@ upload_file_to_ec2(instance, proxy_source_code, os.path.join(proxy_host_path, os
 proxy_commands = [
     'sudo apt-get update',
     'sudo apt install python3.8-venv -y', 
-    'python3 -m venv venv', 
-    'source venv/bin/activate',
-    'pip install ping3',
-    'pip install paramiko',
-    'pip install sshtunnel',
-    'pip install mysql-connector-python ',
-    'pip install flask',
-    'pip install requests',
-    'python proxy.py'
+    'python3 -m venv venv', # create virtual env
+    'source venv/bin/activate', # activate venc
+    'pip install ping3', # install ping3
+    'pip install paramiko',  # install paramiko
+    'pip install sshtunnel', # install sshtunnel
+    'pip install mysql-connector-python ', # install mysql-connector-python
+    'pip install flask', # install flask
+    'pip install requests', # install requests
+    'python proxy.py' # launch proxy flask application
 ]
-
+# execute the commands to configure the proxy flask app
 for i in range(len(proxy_commands)):
     command = proxy_commands[i]
     command_id = send_command([instance], command, ssm_client)

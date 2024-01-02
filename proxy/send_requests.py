@@ -23,7 +23,10 @@ with open(proxy_details) as file:
 
 def send_request(query, host=proxy_detail[0]['PublicIP'], uri='direct_hit'):
     """
-    method to send post request with a given query to proxy machine, with specifiying the strategy
+    INput:  query (SQL qery)
+            stategy: proxy strategy
+    method to send post request and put the query in the body of the request
+
     """
     headers = {'Content-Type': 'application/json'} 
     data = {'query': query}
@@ -34,6 +37,13 @@ def send_request(query, host=proxy_detail[0]['PublicIP'], uri='direct_hit'):
 
 
 if __name__== "__main__":
+    """
+    Main method to send the requests to proxy
+    1- retrive the qeuery from args 
+    2- retrieve the strategy
+    3- send the query to the gatekeeper
+    """
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('--query', default='read', type=str) 
     parser.add_argument('--strategy', default='customized')
